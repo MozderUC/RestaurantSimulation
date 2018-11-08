@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "Tomato",
+    "Proteins": 12.0,
+    "Carbohydrates": 44.0,
+    "Fats": 11.0,
+    "Calories": 12.0,
+    "AscorbicAcid": 12.0
+  },
+  {
+    "Name": "Cucumber",
+    "Proteins": 12.0,
+    "Carbohydrates": 44.0,
+    "Fats": 11.0,
+    "Calories": 12.0,
+    "AscorbicAcid": 12.0
+  },
+  {
+    "Name": "Cabbage",
+    "Proteins": 12.0,
+    "Carbohydrates": 44.0,
+    "Fats": 11.0,
+    "Calories": 12.0,
+    "AscorbicAcid": 12.0
+  }
+]
