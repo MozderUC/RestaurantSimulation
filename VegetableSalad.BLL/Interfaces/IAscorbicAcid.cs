@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VegetableSalad.BLL.Interfaces
 {
-    interface IAscorbicAcid
+    public interface IAscorbicAcid
     {
         float AscorbicAcid { get; set; }
     }

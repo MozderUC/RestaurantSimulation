@@ -7,7 +7,7 @@ using VegetableSalad.BLL.Interfaces;
 
 namespace VegetableSalad.BLL.Models
 {
-    class Vegetable : Food, IAscorbicAcid
+    public class Vegetable : Food, IAscorbicAcid
     {
         public float AscorbicAcid { get ; set ; }
     }

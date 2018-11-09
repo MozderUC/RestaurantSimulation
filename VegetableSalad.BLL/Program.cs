@@ -20,7 +20,13 @@ namespace VegetableSalad.BLL
             kernel.Load(Assembly.GetExecutingAssembly());
             var mailSender = kernel.Get<IVegetableRepository<VegetableEntity>>();
 
-            SalatService vegetableService = new SalatService(mailSender);        
+            SalatService vegetableService = new SalatService(mailSender);
+
+            vegetableService.AddIngredient("Tomato",12);
+            vegetableService.AddIngredient("Cucumber", 12);
+            vegetableService.AddIngredient("Cabbage", 12);
+            vegetableService.AddIngredient("Tomato", 28);
+
 
         }
     }
