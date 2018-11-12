@@ -12,7 +12,12 @@ namespace VegetableSalad.DAL.Repositories
     public class VegetableRepository : Interfaces.IVegetableRepository<VegetableEntity>
     {
 
-        private readonly string path = @"vegetables.txt";
+        private string path;
+        
+        public VegetableRepository(string _path)
+        {
+            path = _path;
+        }
 
         public IEnumerable<VegetableEntity> GetAll()
         {
@@ -25,7 +30,7 @@ namespace VegetableSalad.DAL.Repositories
                     return vegetables;
                 }
             }
-            catch (Exception e)
+            catch
             {
                 throw;
             }

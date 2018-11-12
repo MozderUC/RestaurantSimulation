@@ -14,7 +14,7 @@ namespace VegetableSalad.BLL.Utill
     {
         public override void Load()
         {
-            Bind<IVegetableRepository<VegetableEntity>>().To<VegetableRepository>();
+            Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument(@"vegetables.txt");
         }
     }
 }

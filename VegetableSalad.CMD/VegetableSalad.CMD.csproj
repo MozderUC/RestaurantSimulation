@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{615FF858-0DC1-4C08-B4DD-2DA12276EE75}</ProjectGuid>
+    <ProjectGuid>{E0A989D8-DF61-43A1-97A8-4E6058CC70D6}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>VegetableSalad.DAL</RootNamespace>
-    <AssemblyName>VegetableSalad.DAL</AssemblyName>
+    <RootNamespace>VegetableSalad.CMD</RootNamespace>
+    <AssemblyName>VegetableSalad.CMD</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -50,21 +50,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\VegetableEntity.cs" />
-    <Compile Include="Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Interfaces\IVegetableRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\UnitOfWork.cs" />
-    <Compile Include="Repositories\VegetableRepository.cs" />
+    <Compile Include="Utill\Bindings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="App_Data\vegetables.txt" />
+    <ProjectReference Include="..\VegetableSalad.BLL\VegetableSalad.BLL.csproj">
+      <Project>{013caf66-fdaf-48c3-a811-8b9e3cca680b}</Project>
+      <Name>VegetableSalad.BLL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

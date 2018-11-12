@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace VegetableSalad.BLL.Models
 {
-    public class VegetableSalad
+    public class VegetableSalad : ICloneable
     {     
         public Dictionary<Vegetable, int> Ingredients { set; get; }
         public string Name { get; set; }
         public VegetableSalad()
         {
             Ingredients = new Dictionary<Vegetable, int>();
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
 
     }
