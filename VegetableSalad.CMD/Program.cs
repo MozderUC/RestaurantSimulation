@@ -19,8 +19,7 @@ namespace VegetableSalad.CMD
             IKernel kernel = new StandardKernel(new Bindings());
 
             ISalatService salatService;
-            
-           
+                     
             // Resolve dependense
             salatService = kernel.Get<ISalatService>();
             
