@@ -8,5 +8,7 @@ namespace VegetableSalad.BLL.Models
 {
     public class Waiter
     {
+        public string Name { get; set; }
+        public List<int> TableNumbers { get; set; }
     }
 }

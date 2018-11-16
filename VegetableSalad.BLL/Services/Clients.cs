@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VegetableSalad.BLL.Services
 {
-    public class ClientService
+    public class Clients
     {
         public int TableNumber { get; set; }
         public WaiterService WaiterService { get; set; }

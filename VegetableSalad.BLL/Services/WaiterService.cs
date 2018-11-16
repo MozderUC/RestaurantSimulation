@@ -9,7 +9,12 @@ namespace VegetableSalad.BLL.Services
     public class WaiterService
     {
         public Dictionary<int, List<string>> TableOrder { get; set; }
+        public RestaurantService Restaurant { get; set; }
 
+        public WaiterService(RestaurantService _rest)
+        {
+            Restaurant = _rest;
+        }
 
         public void GiveMenu()
         {

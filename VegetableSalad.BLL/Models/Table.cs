@@ -8,5 +8,8 @@ namespace VegetableSalad.BLL.Models
 {
     public class Table
     {
+        public int TableNumber { get; set; }
+        public int SeatcCount { get; set; }
+        public bool Reserved { get; set; }
     }
 }
