@@ -7,14 +7,19 @@ using System.Threading.Tasks;
 
 namespace RestaurantSimulation.BLL.Services
 {
-    public class GalaxySaladRecipe : RecipeBuilder
+    public class GalaxySaladCook : CookBuilder
     {
         public override VegetableSalad MakeSalad()
         {
             Dictionary<int, string> Resipie = new Dictionary<int, string>() { { 12, "Potatoo" }, { 14, "Ogurchik" }, { 22, "Morkov" } };
 
-            this.VegetableSalad.Ingredients = this.VegetableStorage.GetVegetables(Resipie);
-            this.VegetableSalad.Name = "Galaxy";
+            List<Vegetable> ingredience = this.VegetableStorage.GetVegetables(Resipie);
+
+            foreach (var ing in ingredience)
+            {
+                this.VegetableSalad.Ingredients.Add(ing);
+            }
+            this.VegetableSalad.Name = "Vinaigrette";
 
 
             return this.VegetableSalad;

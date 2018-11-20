@@ -56,10 +56,12 @@
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\MenuRepository.cs" />
+    <Compile Include="Repositories\EFUnitOfWork.cs" />
+    <Compile Include="Repositories\VegetableReposirory.cs" />
+    <Compile Include="Repositories\VegetableStorageRepository.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

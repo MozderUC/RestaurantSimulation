@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RestaurantSimulation.BLL.Models;
+using RestaurantSimulation.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,16 +13,14 @@ namespace RestaurantSimulation.BLL.Services
         public int TableNumber { get; set; }
         public WaiterService WaiterService { get; set; }
 
-        public void GetMenu()
+        public IEnumerable<Menu> GetMenu()
         {
-            // Попросить у WaiterService меню
-            // Вернуть меню
+            return WaiterService.GiveMenu();
         }
 
-        public void MakeOrder(List<string> order)
+        public List<VegetableSalad> MakeOrder(List<string> order)
         {
-            // Сделать заказ у WaiterService
-            // Вернуть сообщение заказ принят/не_принят
+            return WaiterService.TakeOrder(TableNumber, order);
         }
 
         public void GetBill()

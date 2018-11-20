@@ -18,11 +18,11 @@ namespace RestaurantSimulation.BLL.Services
                 switch (salad)
                 {
                     case "Vinaigrette":
-                        RecipeBuilder VinaigretteBuilder = new VinaigretteSaladRecipe();
+                        CookBuilder VinaigretteBuilder = new VinaigretteSaladCook();
                         ReadyOrder.Add(VinaigretteBuilder.MakeSalad());
                         break;
                     case "Galaxy":
-                        RecipeBuilder GalaxyBuilder = new GalaxySaladRecipe();
+                        CookBuilder GalaxyBuilder = new GalaxySaladCook();
                         ReadyOrder.Add(GalaxyBuilder.MakeSalad());
                         break;
                     default:                        

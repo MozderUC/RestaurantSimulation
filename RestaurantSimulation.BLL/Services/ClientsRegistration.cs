@@ -12,13 +12,10 @@ namespace RestaurantSimulation.BLL.Services
     {
         EFUnitOfWork UnitOfWork;
 
-        public WaiterService Waiter { get; private set; } //*
-        public List<Table> Tables { get; private set; } //*
+        public WaiterService Waiter { get; private set; } 
+        public List<Table> Tables { get; private set; } 
         
-        public List<Clients> ServiceClients { get; set; }//*
-
-
-
+        public List<Clients> ServiceClients { get; set; }
 
         public ClientRegistration()
         {
@@ -35,7 +32,7 @@ namespace RestaurantSimulation.BLL.Services
 
         public Clients AddClients(int VisitorsNumber)
         {
-            // Find the nearest table
+            // Find table whith nearest seats count
             var ClosestTable = Tables.Where(item => item.Reserved == false).OrderBy(item => Math.Abs(VisitorsNumber - item.SeatcCount)).First();
 
             // Indicate that the table is busy
@@ -50,11 +47,8 @@ namespace RestaurantSimulation.BLL.Services
         }
 
         public void RemoveClients(int VisitorsNumber)
-        {
-            //return Waiters[0];
-            // Найти столик
-            // Дать официанта
-            // Вернуть созданный сервис
+        {            
+            
         }
     }
 }

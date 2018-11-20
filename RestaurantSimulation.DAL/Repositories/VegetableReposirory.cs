@@ -1,5 +1,6 @@
 ﻿using RestaurantSimulation.DAL.EF;
 using RestaurantSimulation.DAL.Entities;
+using RestaurantSimulation.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

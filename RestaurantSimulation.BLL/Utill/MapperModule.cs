@@ -11,10 +11,10 @@ namespace RestaurantSimulation.BLL.Utill
 {
     public class MapperModule
     {
-        public static IEnumerable<Models.Vegetable> EFVegetable_To_Vegetable(IEnumerable<Vegetable> vegetables)
+        public static Models.Vegetable EFVegetable_To_Vegetable(Vegetable vegetables)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Vegetable, Models.Vegetable>()).CreateMapper();
-            IEnumerable<Models.Vegetable> Vegetables = mapper.Map<IEnumerable<Vegetable>, IEnumerable<Models.Vegetable>>(vegetables);
+            Models.Vegetable Vegetables = mapper.Map<Vegetable, Models.Vegetable>(vegetables);
 
             return Vegetables;
 

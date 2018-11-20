@@ -12,14 +12,14 @@ namespace RestaurantSimulation.BLL.Services
     public class VegetableStorage
     {
         public EFUnitOfWork UnitOfWork;
-        public Dictionary<Models.Vegetable, int> Vegetables { get; set; }
+        public List<Models.Vegetable> Vegetables { get; set; }
 
         public VegetableStorage()
         {
             UnitOfWork = new EFUnitOfWork();
         }
 
-        public Dictionary<Models.Vegetable, int> GetVegetables(Dictionary<int,string> ingrediense)
+        public List<Models.Vegetable> GetVegetables(Dictionary<int,string> ingrediense)
         {
 
             foreach(var ing in ingrediense)
@@ -29,8 +29,10 @@ namespace RestaurantSimulation.BLL.Services
                     throw new NotFoundIngredienceExeption("");
                 if (FoundVegetables.VegetableStock < ing.Key)
                     throw new NoAmountNeededProduct("");
-
-                Vegetables.Add(MapperModule.EFVegetable_To_Vegetable(FoundVegetables.Vegetable));
+               
+                Models.Vegetable vegetable = MapperModule.EFVegetable_To_Vegetable(FoundVegetables.Vegetable);
+                vegetable.Weight = ing.Key;
+                Vegetables.Add(vegetable);
             }
 
             return Vegetables;

@@ -48,5 +48,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RestaurantSimulation.BLL\RestaurantSimulation.BLL.csproj">
+      <Project>{8a853671-e620-43cc-ab71-b891f9c636c2}</Project>
+      <Name>RestaurantSimulation.BLL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

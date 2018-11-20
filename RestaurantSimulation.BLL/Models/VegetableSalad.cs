@@ -8,11 +8,11 @@ namespace RestaurantSimulation.BLL.Models
 {
     public class VegetableSalad
     {
-        public Dictionary<Vegetable, int> Ingredients { set; get; }
+        public VegetableCollection Ingredients { set; get; }
         public string Name { get; set; }
         public VegetableSalad()
         {
-            Ingredients = new Dictionary<Vegetable, int>();
+            Ingredients = new VegetableCollection();
         }
     }
 }
