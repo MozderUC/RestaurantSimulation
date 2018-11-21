@@ -1,5 +1,4 @@
 ﻿using RestaurantSimulation.BLL.Models;
-using RestaurantSimulation.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace RestaurantSimulation.BLL.Services
 {
-    public abstract class CookBuilder
+    abstract public class Cook
     {
         public Models.VegetableSalad VegetableSalad { get; private set; }
-        public VegetableStorage VegetableStorage { get; set; }
-        
-        public void CreateVegetableSalad()
-        {           
+        public VegetableStorageService VegetableStorage { get; set; }
+
+        public Cook()
+        {
             VegetableSalad = new Models.VegetableSalad();
-            VegetableStorage = new VegetableStorage();
+            VegetableStorage = new VegetableStorageService();
         }
-        public abstract VegetableSalad MakeSalad();
+        
+        public abstract VegetableSalad MakeSalad(SaladOrder order);
     }
 }

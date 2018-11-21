@@ -1,4 +1,5 @@
 using RestaurantSimulation.BLL.Models;
+using RestaurantSimulation.BLL.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,23 +12,30 @@ namespace RestaurantSimulation.CMD
     {
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
-            Console.WriteLine("Hello World!");
-            
+
+            ClientsRegistrationService clientsRegistrationService = new ClientsRegistrationService();
+
+            // Client registration
+            ClientsService clientsService = clientsRegistrationService.AddClients(2);
 
 
-            Vegetable veg = new Vegetable() { Name = "Ogyrec", Calories = 12, Fats = 12, Proteins = 12, AscorbicAcid = 12, Carbohydrates = 12, Weight = 34};
-            Vegetable veg1 = new Vegetable() { Name = "Pomidor", Calories = 12, Fats = 12, Proteins = 12, AscorbicAcid = 12, Carbohydrates = 12, Weight = 34 };
-            VegetableCollection sett = new VegetableCollection();
-            sett.Add(veg);
-            sett.Add(veg);
-            sett.Add(veg1);
+            // Clients get the menu
+            var Menu = clientsService.GetMenu();
+            foreach(var salat in Menu)
+            {
+                Console.WriteLine("Salat name: {0} || Cost: {1}",salat.Name,salat.Cost);
+            }
 
-            var list = sett.GetList();
+            // Clients make order
+            List<VegetableSalad> order = clientsService.MakeOrder(new List<SaladOrder> {new VinaigretteSaladOrder(), new GalaxySaladOrder()});          
 
-            Console.WriteLine();
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+            /// Vegetable Collection Tests
+            //Vegetable veg = new Vegetable() { Name = "Ogyrec", Calories = 12, Fats = 12, Proteins = 12, AscorbicAcid = 12, Carbohydrates = 12, Weight = 34};
+            //Vegetable veg1 = new Vegetable() { Name = "Pomidor", Calories = 12, Fats = 12, Proteins = 12, AscorbicAcid = 12, Carbohydrates = 12, Weight = 34 };
+            //VegetableCollection sett = new VegetableCollection();
+            //sett.Add(veg);
+            //sett.Add(veg);
+            //sett.Add(veg1);            
         }
     }
 }

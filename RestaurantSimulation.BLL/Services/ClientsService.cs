@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantSimulation.BLL.Services
 {
-    public class Clients
+    public class ClientsService
     {
         public int TableNumber { get; set; }
         public WaiterService WaiterService { get; set; }
@@ -18,7 +18,7 @@ namespace RestaurantSimulation.BLL.Services
             return WaiterService.GiveMenu();
         }
 
-        public List<VegetableSalad> MakeOrder(List<string> order)
+        public List<VegetableSalad> MakeOrder(IList<SaladOrder> order)
         {
             return WaiterService.TakeOrder(TableNumber, order);
         }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace RestaurantSimulation.BLL.Services
 {
-    public class GalaxySaladCook : CookBuilder
+    public class GalaxySaladCook : Cook
     {
-        public override VegetableSalad MakeSalad()
+        public override VegetableSalad MakeSalad(SaladOrder galaxySalad)
         {
             Dictionary<int, string> Resipie = new Dictionary<int, string>() { { 12, "Potatoo" }, { 14, "Ogurchik" }, { 22, "Morkov" } };
 

@@ -21,7 +21,7 @@ namespace RestaurantSimulation.DAL.Repositories
 
         public IEnumerable<VegetableStorage> GetAll()
         {
-            return db.VegetableStorages;
+            return db.VegetableStorages.Include("Vegetable");
         }
 
         public VegetableStorage Get(int id)
@@ -41,7 +41,7 @@ namespace RestaurantSimulation.DAL.Repositories
 
         public IEnumerable<VegetableStorage> Find(Func<VegetableStorage, Boolean> predicate)
         {
-            return db.VegetableStorages.Where(predicate).ToList();
+            return db.VegetableStorages.Include("Vegetable").Where(predicate).ToList();
         }
 
         public void Delete(int id)

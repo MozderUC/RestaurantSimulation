@@ -11,12 +11,14 @@ namespace RestaurantSimulation.BLL.Services
     public class WaiterService
     {
         EFUnitOfWork UnitOfWork;
+        private readonly CheafService cheafService = new CheafService();
 
-        public Dictionary<int, List<string>> TableOrder { get; set; }
-        
+        public Dictionary<int, IList<SaladOrder>> TableOrder { get; set; }
+      
         public WaiterService()
         {
             UnitOfWork = new EFUnitOfWork();
+            TableOrder = new Dictionary<int, IList<SaladOrder>>();
         }
 
         public IEnumerable<Menu> GiveMenu()
@@ -27,17 +29,20 @@ namespace RestaurantSimulation.BLL.Services
 
         }
 
-        public List<Models.VegetableSalad> TakeOrder(int TableNumber, List<string> Order)
+        public List<Models.VegetableSalad> TakeOrder(int TableNumber, IList<SaladOrder> Order)
         {
             
-            TableOrder[TableNumber] = Order;
-            return Cheaf.MakeOrder(Order);
+            TableOrder[TableNumber] = Order;           
+            return cheafService.ProcessOrder(Order);
 
         }
 
-        public void GiveBill()
+        public void GiveBill(int TableNumber)
         {
-            // Отдать счет
+            // Отдать счет           
+            //var q = from d in TableOrder[TableNumber]
+            //        join dc in UnitOfWork.Menu.GetAll() on d equals dc.Name
+            //        select dc;
         }
 
         public void GiveRewiewBook()

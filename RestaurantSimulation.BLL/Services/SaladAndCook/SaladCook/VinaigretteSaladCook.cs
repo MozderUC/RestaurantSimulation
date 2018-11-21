@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace RestaurantSimulation.BLL.Services
 {
-    public class VinaigretteSaladCook : CookBuilder
+    public class VinaigretteSaladCook : Cook
     {
-        public override VegetableSalad MakeSalad()
+        public override VegetableSalad MakeSalad(SaladOrder vinaigrette)
         {
             Dictionary<int, string> Resipie = new Dictionary<int, string>() { {12,"Potatoo"},{14,"Ogurchik"},{22,"Morkov"} };
 
             //Get Ingredience from stotrage
-            List<Vegetable> ingredience = this.VegetableStorage.GetVegetables(Resipie);
+            List<Vegetable> ingredience = VegetableStorage.GetVegetables(Resipie);
 
 
             // Constract salad
@@ -28,6 +28,6 @@ namespace RestaurantSimulation.BLL.Services
 
 
             return this.VegetableSalad;
-        }
+        }        
     }
 }
