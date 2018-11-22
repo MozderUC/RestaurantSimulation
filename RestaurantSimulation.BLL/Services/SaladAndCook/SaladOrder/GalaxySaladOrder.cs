@@ -9,6 +9,8 @@ namespace RestaurantSimulation.BLL.Services
 {
     public class GalaxySaladOrder : SaladOrder
     {
+        public override string Name { get; set; } = "GalaxySalad";
+
         public override VegetableSalad OrderSalad(IRestaurantCheaf p)
         {
             return p.OrderSalad(this);

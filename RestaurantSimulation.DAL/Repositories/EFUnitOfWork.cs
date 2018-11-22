@@ -15,6 +15,7 @@ namespace RestaurantSimulation.DAL.Repositories
         private MenuRepository MenuRepository;
         private VegetableReposirory VegetableReposirory;
         private VegetableStorageRepository VegetableStorageRepository;
+        private GuestbookRepository GuestbookRepository;
 
         public EFUnitOfWork()
         {
@@ -49,6 +50,21 @@ namespace RestaurantSimulation.DAL.Repositories
                     VegetableStorageRepository = new VegetableStorageRepository(Db);
                 return VegetableStorageRepository;
             }
+        }
+
+        public IRepository<Guestbook> Guestbook
+        {
+            get
+            {
+                if (GuestbookRepository == null)
+                    GuestbookRepository = new GuestbookRepository(Db);
+                return GuestbookRepository;
+            }
+        }
+
+        public void Save()
+        {
+            Db.SaveChanges();
         }
 
         private bool disposed = false;

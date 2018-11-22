@@ -13,7 +13,8 @@ namespace RestaurantSimulation.DAL.EF
         public DbSet<Menu> Menu { get; set; }
         public DbSet<Vegetable> Vegetables { get; set; }
         public DbSet<VegetableStorage> VegetableStorages { get; set; }
-        
+        public DbSet<Guestbook> Guestbook { get; set; }
+
         public RestaurantContext() : base("RestaurantSimulation")
         {
         }

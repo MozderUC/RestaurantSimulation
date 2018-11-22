@@ -37,17 +37,21 @@ namespace RestaurantSimulation.BLL.Services
 
         }
 
-        public void GiveBill(int TableNumber)
+        public float GiveBill(int TableNumber)
         {
-            // Отдать счет           
-            //var q = from d in TableOrder[TableNumber]
-            //        join dc in UnitOfWork.Menu.GetAll() on d equals dc.Name
-            //        select dc;
+            // Count bill sum for a specific table
+
+            var MakeBill = TableOrder[TableNumber].Join(UnitOfWork.Menu.GetAll(),
+                                 order => order.Name,
+                                 menuItem => menuItem.Name,
+                                 (order, menuItem) => menuItem.Cost).Sum();
+            return MakeBill;
         }
 
-        public void GiveRewiewBook()
+        public void TakeFeedback(string feedback, string Name)
         {
-            // Дать книгу отзывов           
+            UnitOfWork.Guestbook.Create(new Guestbook() { Name = Name, Review = feedback });
+            UnitOfWork.Save();
         }
 
         public void TakeBill()

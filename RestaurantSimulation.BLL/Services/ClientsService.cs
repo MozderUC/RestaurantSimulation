@@ -23,23 +23,19 @@ namespace RestaurantSimulation.BLL.Services
             return WaiterService.TakeOrder(TableNumber, order);
         }
 
-        public void GetBill()
+        public float GetBill()
         {
-            // Попросить счет
-            // Заплатить по счету
+            return WaiterService.GiveBill(TableNumber);
         }
 
 
-        public void LeaveFeedback(string feedback)
+        public void LeaveFeedback(string feedback, string Name)
         {
-            // Попросить у WaiterService книгу отзывов
-            // Записать отзыв
+            WaiterService.TakeFeedback(feedback, Name);
         }
 
         public void LeaveRestaurant()
-        {
-            // Попросить счет
-            // Заплатить по счету
+        {                   
         }
     }
 }

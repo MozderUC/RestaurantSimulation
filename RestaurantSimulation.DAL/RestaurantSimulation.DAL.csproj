@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EF\RestaurantContext.cs" />
+    <Compile Include="Entities\Guestbook.cs" />
     <Compile Include="Entities\Menu.cs" />
     <Compile Include="Entities\Vegetable.cs" />
     <Compile Include="Entities\VegetableStorage.cs" />
@@ -58,8 +59,13 @@
     <Compile Include="Migrations\201811211218266_Initial.Designer.cs">
       <DependentUpon>201811211218266_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811220817223_addGuestBook.cs" />
+    <Compile Include="Migrations\201811220817223_addGuestBook.Designer.cs">
+      <DependentUpon>201811220817223_addGuestBook.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\GuestbookRepository.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
     <Compile Include="Repositories\EFUnitOfWork.cs" />
     <Compile Include="Repositories\VegetableReposirory.cs" />
@@ -72,6 +78,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811211218266_Initial.resx">
       <DependentUpon>201811211218266_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811220817223_addGuestBook.resx">
+      <DependentUpon>201811220817223_addGuestBook.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
