@@ -56,8 +56,8 @@
     <Compile Include="Services\CheafService.cs" />
     <Compile Include="Services\ClientsService.cs" />
     <Compile Include="Services\ClientsRegistrationService.cs" />
+    <Compile Include="Services\CustomExeptions\NoAmountNeededProductExeption.cs" />
     <Compile Include="Services\SaladAndCook\SaladCook\Cook.cs" />
-    <Compile Include="Services\CustomExeptions\NoAmountNeededProduct .cs" />
     <Compile Include="Services\SaladAndCook\SaladOrder\GalaxySaladOrder.cs" />
     <Compile Include="Services\SaladAndCook\SaladCook\GalaxySaladCook.cs" />
     <Compile Include="Services\CustomExeptions\NotFoundIngredienceExeption.cs" />
@@ -78,6 +78,5 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
