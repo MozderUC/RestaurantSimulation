@@ -54,7 +54,7 @@ namespace RestaurantSimulation.BLL.Services
             UnitOfWork.Save();
         }
 
-        public void TakeBill()
+        public void CleanUpTable(int TableNumber)
         {
             // Забрать счет, отдать деньги в кассу   
         }

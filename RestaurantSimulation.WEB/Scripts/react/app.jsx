@@ -1,15 +1,4 @@
 ﻿
-const ClientService = [
-    { TableNumber: 1, TableOrder: undefined, TableBill: undefined },
-    { TableNumber: 2, TableOrder: "hellow", TableBill: undefined }
-];
-
-const RestarauntMenu = [
-    { Dish: 'Galaxy', Cost: 12 },
-    { Dish: 'Vinegrette', Cost: 12 },
-    { Dish: 'Goroshek', Cost: 12 }
-];
-
 
 class MakeOrder extends React.Component {
 
@@ -70,9 +59,12 @@ class MakeOrder extends React.Component {
                         Client Order:
                         <ul>
                             {orders}
-                            <button onClick={this.handleClientOrderChange}  className="btn btn-primary float-right">
-                                {this.state.clientOrders.length > 0 ? 'Make Order' : 'Select Dish'}
-                            </button>
+                            {this.state.clientOrders.length > 0 ?
+                                <button onClick={this.handleClientOrderChange} className="btn btn-primary float-right">
+                                    {'Make Order'}
+                                </button>
+                                :""
+                            }                           
                         </ul>
                     </div>
                 </div>
@@ -119,17 +111,30 @@ class CompleteOrder extends React.Component {
 class BillOrder extends React.Component {
 
     constructor(props) {
-        super(props);       
+        super(props);
+
+        // This binding is necessary to make `this` work in the callback
+        this.handlePaidOrder = this.handlePaidOrder.bind(this);
     }   
 
+    handlePaidOrder() {
+        this.props.onPaidOrder(this.props.clientService.TableNumber);
+    }
 
+    getTotalSum() {
+        
+        let sum=0;
+        var i;
+        for (i = 0; i < this.props.clientService.TableOrder.length; i++) {
+            sum = sum + this.props.clientService.TableOrder[i].Cost;
+        }
+        console.log("came here", sum)
+        return (
+            <div>{sum}</div>
+        )
+    }
 
     render() {
-
-        const sum = this.props.clientService.TableOrder.map((tableOrder) =>
-            {tableOrder.Cost}
-        );
-
         const rows = this.props.clientService.TableOrder.map((tableOrder) =>
             <tr key={tableOrder.Dish}>
                 <th>{tableOrder.Dish}</th>
@@ -140,8 +145,8 @@ class BillOrder extends React.Component {
 
         return (
             <div className="card-body">
-                Order List:
-                <table className="table">
+                <h4>Order List:</h4>               
+                <table className="table table-bordered">
                     <thead>
                         <tr>
                             <th>Dish</th>
@@ -150,12 +155,15 @@ class BillOrder extends React.Component {
                     </thead>
                     <tbody>{rows}</tbody>
                     <tfoot>
-                        <tr>
+                        <tr >
                             <th>Total Sum</th>
-                            <th>{sum}</th>
+                            <th>{this.getTotalSum()} </th>
                         </tr>
                     </tfoot>
-                </table>              
+                </table>
+                <button onClick={this.handlePaidOrder} className="btn btn-primary float-right">
+                    {'Paid'}
+                </button>
             </div>
         );
     }
@@ -166,11 +174,15 @@ class ClientsServiceList extends React.Component {
     constructor(props) {
         super(props);
 
-        // This binding is necessary to make `this` work in the callback
+        // This binding is necessary to make `this` work in the callback       
+        this.handlePaidOrder = this.handlePaidOrder.bind(this);
         this.handleClientOrderChange = this.handleClientOrderChange.bind(this);
         this.handleClientGetBill = this.handleClientGetBill.bind(this);
     }
 
+    handlePaidOrder(tableNumber) {
+        this.props.onPaidOrder(tableNumber);
+    }
     handleClientGetBill(tableNumber) {
         this.props.onClientGetBill(tableNumber);
     }
@@ -191,7 +203,7 @@ class ClientsServiceList extends React.Component {
                     </div>                   
                     {(() => {
                         if (clientService.IsCreatedBill == true) {
-                            return <BillOrder clientService={clientService}/>;
+                            return <BillOrder clientService={clientService} onPaidOrder={this.handlePaidOrder}/>;
                         }
                         if (clientService.TableOrder == undefined) {
                             return <MakeOrder restarauntMenu={this.props.restarauntMenu} onClientOrderChange={this.handleClientOrderChange} tableNumber={clientService.TableNumber} />;
@@ -215,9 +227,33 @@ class ClientsServiceList extends React.Component {
 class AddClientsForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { ClientsAmount: ''};
+        this.state = {
+            ClientsAmount: '',
+            errors: {}
+        };
         this.handleClientsAmountChange = this.handleClientsAmountChange.bind(this);      
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleValidation() {
+        let fields = this.state.ClientsAmount;
+        let errors = {};
+        let formIsValid = true;
+
+        if (!fields) {
+            formIsValid = false;
+            errors["ClientsAmount"] = "Cannot be empty";
+        }
+
+        if (typeof fields !== "undefined") {
+            if (!fields.match(/[1-9]/)) {
+                formIsValid = false;
+                errors["ClientsAmount"] = "Only digits 1..9";
+            }    
+        }
+
+        this.setState({ errors: errors });
+        return formIsValid;
     }
 
     handleClientsAmountChange(e) {
@@ -226,13 +262,17 @@ class AddClientsForm extends React.Component {
     }
     handleSubmit(e) {
         console.log('handle submit');
+
         e.preventDefault();
-        const clientsAmount = this.state.ClientsAmount.trim();      
-        if (!clientsAmount) {
-            return;
+
+        if (this.handleValidation()) {
+            
+            this.props.onAddClientsSubmit(this.state.ClientsAmount)
+            this.setState({ ClientsAmount: '' });           
+        } else {
+            alert("Form has errors.")
         }
-        this.props.onAddClientsSubmit(this.state.ClientsAmount)
-        this.setState({ ClientsAmount: ''});
+        
     }
 
     render() {
@@ -240,7 +280,8 @@ class AddClientsForm extends React.Component {
             <form onSubmit={this.handleSubmit} >
                 <div className="form-group">
                     <label> Add Clients:</label>
-                    <input id="new-clientService" className="form-control" placeholder="Enter clients amount" value={this.state.ClientsAmount} onChange={this.handleClientsAmountChange}/>
+                    <input id="new-clientService" className="form-control" placeholder="Enter clients amount" value={this.state.ClientsAmount} onChange={this.handleClientsAmountChange} />
+                    <span >{this.state.errors["ClientsAmount"]}</span>
                 </div>
                 
                 <button type="submit" className="btn btn-default"> Add </button>
@@ -259,11 +300,23 @@ class RestarauntSimulation extends React.Component {
         };
 
         // This binding is necessary to make `this` work in the callback
+        this.handlePaidOrder = this.handlePaidOrder.bind(this);
         this.handleClientOrder = this.handleClientOrder.bind(this);
         this.handleGetBill = this.handleGetBill.bind(this);
         this.handleAddClientsSubmit = this.handleAddClientsSubmit.bind(this);
     }
 
+    handlePaidOrder(tableNumber) {
+        console.log('Handle paid', tableNumber);
+
+        const data = new FormData();
+        data.append('tableNumber', tableNumber);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('post', this.props.removeClientsUrl, true);
+        xhr.onload = () => this.loadClienServicesFromServer();
+        xhr.send(data);
+    }
     handleGetBill(tableNumber) {
         console.log('Client want bill', tableNumber);
 
@@ -294,7 +347,12 @@ class RestarauntSimulation extends React.Component {
       
         const xhr = new XMLHttpRequest();
         xhr.open('post', this.props.addClientsUrl, true);
-        xhr.onload = () => this.loadClienServicesFromServer();
+        xhr.onload = () => {
+            const data = JSON.parse(xhr.responseText);
+            if (data != "Success")
+                alert(data)
+            this.loadClienServicesFromServer();
+        }
         xhr.send(data);
     }
 
@@ -330,7 +388,7 @@ class RestarauntSimulation extends React.Component {
                         Restaraunt Simulation
                     </h1>
                 </div>
-                <ClientsServiceList clientService={this.state.clientState} restarauntMenu={this.state.restarauntMenu} onClientOrderChange={this.handleClientOrder} onClientGetBill={this.handleGetBill}/>
+                <ClientsServiceList clientService={this.state.clientState} restarauntMenu={this.state.restarauntMenu} onClientOrderChange={this.handleClientOrder} onClientGetBill={this.handleGetBill} onPaidOrder={this.handlePaidOrder}/>
                 <AddClientsForm onAddClientsSubmit={this.handleAddClientsSubmit} />
             </div>
         );
@@ -338,4 +396,4 @@ class RestarauntSimulation extends React.Component {
 }
 
 
-ReactDOM.render(<RestarauntSimulation addClientsUrl="/restaurant/addClients" getClientsUrl="/restaurant/getClients" getMenuUrl="/restaurant/getMenu" processClientOrderUrl="/restaurant/addClientOrder" getClientBillUrl="/restaurant/getClientBill" />, document.getElementById('content'));
+ReactDOM.render(<RestarauntSimulation addClientsUrl="/restaurant/addClients" getClientsUrl="/restaurant/getClients" getMenuUrl="/restaurant/getMenu" processClientOrderUrl="/restaurant/addClientOrder" getClientBillUrl="/restaurant/getClientBill" removeClientsUrl="/restaurant/removeClients" />, document.getElementById('content'));

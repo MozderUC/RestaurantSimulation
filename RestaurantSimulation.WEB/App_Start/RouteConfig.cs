@@ -19,6 +19,11 @@ namespace RestaurantSimulation.WEB
                 defaults: new { controller = "Home", action = "AddClientOrder" }
             );
             routes.MapRoute(
+                name: "RemoveClients",
+                url: "restaurant/removeClients",
+                defaults: new { controller = "Home", action = "RemoveClients" }
+            );
+            routes.MapRoute(
                 name: "GetClientBill",
                 url: "restaurant/getClientBill",
                 defaults: new { controller = "Home", action = "GetClientBill" }

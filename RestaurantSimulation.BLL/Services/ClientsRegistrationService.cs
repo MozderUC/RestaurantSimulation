@@ -1,4 +1,5 @@
 ﻿using RestaurantSimulation.BLL.Models;
+using RestaurantSimulation.BLL.Services.CustomExeptions;
 using RestaurantSimulation.DAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,7 @@ namespace RestaurantSimulation.BLL.Services
         EFUnitOfWork UnitOfWork;
 
         public WaiterService WaiterService { get; private set; } 
-        public List<Table> Tables { get; private set; } 
-        
-        public List<ClientsService> ServiceClients { get; set; }
+        public List<Table> Tables { get; private set; }         
 
         public ClientsRegistrationService()
         {
@@ -33,9 +32,12 @@ namespace RestaurantSimulation.BLL.Services
         public ClientsService AddClients(int VisitorsNumber)
         {
             // Find table whith nearest seats count
-            var ClosestTable = Tables.Where(item => item.Reserved == false).OrderBy(item => Math.Abs(VisitorsNumber - item.SeatcCount)).First();
+            var ClosestTable = Tables.Where(item => item.Reserved == false && item.SeatcCount >= VisitorsNumber).OrderBy(item => Math.Abs(VisitorsNumber - item.SeatcCount)).FirstOrDefault();
 
-            // Indicate that the table is busy
+            if (ClosestTable == null)
+                throw new TableNotFoundExeption("No matching table found");
+
+            // Indicate that the table is busy            
             Tables.Where(item => item.TableNumber == ClosestTable.TableNumber).Select(u =>{ u.Reserved = true; return u; }).ToList();
 
 
@@ -46,9 +48,9 @@ namespace RestaurantSimulation.BLL.Services
             return Clients;          
         }
 
-        public void RemoveClients(int VisitorsNumber)
-        {            
-            
+        public void RemoveClients(int TableNumber)
+        {
+            Tables.Where(item => item.TableNumber == TableNumber).Select(u => { u.Reserved = false; return u; }).ToList();
         }
     }
 }

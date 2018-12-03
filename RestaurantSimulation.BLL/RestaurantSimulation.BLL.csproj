@@ -57,6 +57,7 @@
     <Compile Include="Services\ClientsService.cs" />
     <Compile Include="Services\ClientsRegistrationService.cs" />
     <Compile Include="Services\CustomExeptions\NoAmountNeededProductExeption.cs" />
+    <Compile Include="Services\CustomExeptions\TableNotFoundExeption.cs" />
     <Compile Include="Services\SaladAndCook\SaladCook\Cook.cs" />
     <Compile Include="Services\SaladAndCook\SaladOrder\GalaxySaladOrder.cs" />
     <Compile Include="Services\SaladAndCook\SaladCook\GalaxySaladCook.cs" />

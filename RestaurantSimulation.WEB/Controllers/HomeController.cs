@@ -1,4 +1,5 @@
 ﻿using RestaurantSimulation.BLL.Services;
+using RestaurantSimulation.BLL.Services.CustomExeptions;
 using RestaurantSimulation.WEB.Models;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,7 @@ using System.Web.UI;
 namespace RestaurantSimulation.WEB.Controllers
 {
     public class HomeController : Controller
-    {
-        //private static readonly IList<ClientServiceViewModel> clientServiceViewModels;
+    {       
         private static readonly IList<ClientsService> clientServices;
         private static readonly IList<SaladOrder> restarauntMenu;
 
@@ -47,10 +47,16 @@ namespace RestaurantSimulation.WEB.Controllers
         [HttpPost]
         public ActionResult AddClientsService(int clientAmount)
         {
-            var clients = clientsRegistrationService.AddClients(clientAmount);
-            clientServices.Add(clients);                   
-
-            return Content("Success :)");
+            try
+            {
+                var clients = clientsRegistrationService.AddClients(clientAmount);
+                clientServices.Add(clients);
+            }
+            catch (TableNotFoundExeption e)
+            {
+                return Json(e.Message, JsonRequestBehavior.AllowGet);
+            }
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
 
        
@@ -75,23 +81,20 @@ namespace RestaurantSimulation.WEB.Controllers
             return View();
         }
 
+        public ActionResult RemoveClients(int tableNumber)
+        {
+            clientsRegistrationService.RemoveClients(tableNumber);
+
+            var itemToRemove = clientServices.Single(r => r.TableNumber == tableNumber);
+            clientServices.Remove(itemToRemove);
+
+            return Content("Success :)");
+        }
+
         public ActionResult Index()
         {
             return View();
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+      
     }
 }
