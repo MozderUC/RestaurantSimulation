@@ -37,15 +37,15 @@ namespace RestaurantSimulation.BLL.Services
 
         }
 
-        public float GiveBill(int TableNumber)
+        public void GiveBill(int TableNumber)
         {
             // Count bill sum for a specific table
 
-            var MakeBill = TableOrder[TableNumber].Join(UnitOfWork.Menu.GetAll(),
-                                 order => order.Name,
-                                 menuItem => menuItem.Name,
-                                 (order, menuItem) => menuItem.Cost).Sum();
-            return MakeBill;
+            //var MakeBill = TableOrder[TableNumber].Join(UnitOfWork.Menu.GetAll(),
+            //                     order => order.Dish,
+            //                     menuItem => menuItem.Name,
+            //                     (order, menuItem) => menuItem.Cost).Sum();
+            //return MakeBill;
         }
 
         public void TakeFeedback(string feedback, string Name)

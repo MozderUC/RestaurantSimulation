@@ -11,6 +11,9 @@ namespace RestaurantSimulation.BLL.Services
     public class ClientsService
     {
         public int TableNumber { get; set; }
+        public List<SaladOrder> TableOrder { get; set; }
+        public bool IsCreatedBill { get; set; } = false;
+
         public WaiterService WaiterService { get; set; }
 
         public IEnumerable<Menu> GetMenu()
@@ -20,12 +23,13 @@ namespace RestaurantSimulation.BLL.Services
 
         public List<VegetableSalad> MakeOrder(IList<SaladOrder> order)
         {
+            this.TableOrder = order.ToList();
             return WaiterService.TakeOrder(TableNumber, order);
         }
 
-        public float GetBill()
+        public void GetBill()
         {
-            return WaiterService.GiveBill(TableNumber);
+            //return WaiterService.GiveBill(TableNumber);
         }
 
 

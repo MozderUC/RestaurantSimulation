@@ -9,7 +9,8 @@ namespace RestaurantSimulation.BLL.Services
 {
     public class GalaxySaladOrder : SaladOrder
     {
-        public override string Name { get; set; } = "GalaxySalad";
+        public override string Dish { get; set; } = "GalaxySalad";
+        public override int Cost { get; set; } = 12;
 
         public override VegetableSalad OrderSalad(IRestaurantCheaf p)
         {

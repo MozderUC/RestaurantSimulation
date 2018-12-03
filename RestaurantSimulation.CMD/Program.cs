@@ -36,14 +36,14 @@ namespace RestaurantSimulation.CMD
             List<VegetableSalad> order4 = clientsService4.MakeOrder(new List<SaladOrder> { new VinaigretteSaladOrder(), new GalaxySaladOrder() });
 
             // Get Sum of the order
-            float BillSum1 = clientsService1.GetBill();
-            float BillSum2 = clientsService2.GetBill();
-            float BillSum3 = clientsService3.GetBill();
-            float BillSum4 = clientsService4.GetBill();
-            Console.WriteLine(BillSum1);
-            Console.WriteLine(BillSum2);
-            Console.WriteLine(BillSum3);
-            Console.WriteLine(BillSum4);
+            //float BillSum1 = clientsService1.GetBill();
+            //float BillSum2 = clientsService2.GetBill();
+            //float BillSum3 = clientsService3.GetBill();
+            //float BillSum4 = clientsService4.GetBill();
+            //Console.WriteLine(BillSum1);
+            //Console.WriteLine(BillSum2);
+            //Console.WriteLine(BillSum3);
+            //Console.WriteLine(BillSum4);
 
             // LeaveFeedback
             clientsService1.LeaveFeedback("It's restauraunt have big potential", "Dima");
