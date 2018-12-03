@@ -1,6 +1,5 @@
 ﻿using System.Web;
 using System.Web.Optimization;
-using System.Web.Optimization.React;
 
 namespace RestaurantSimulation.WEB
 {
@@ -21,17 +20,10 @@ namespace RestaurantSimulation.WEB
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/bootstrap.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+            bundles.Add(new StyleBundle("~/Content/css").Include(                    
                       "~/Content/site.css"));
-            //BabelBundle
-            bundles.Add(new BabelBundle("~/bundles/main").Include(
-                     "~/Scripts/react/AddClients.jsx",
-                     "~/Scripts/react/FirstReactApp.jsx",
-                     "~/Scripts/react/test.jsx"));
         }
     }
 }

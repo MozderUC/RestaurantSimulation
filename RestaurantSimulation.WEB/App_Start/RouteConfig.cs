@@ -12,16 +12,16 @@ namespace RestaurantSimulation.WEB
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
             routes.MapRoute(
                 name: "Comments",
-                url: "restaurant/add",
+                url: "restaurant/addClients",
                 defaults: new { controller = "Home", action = "AddClientsService" }
             );
 
             routes.MapRoute(
                 name: "Commentss",
-                url: "restaurant/get",
+                url: "restaurant/getClients",
                 defaults: new { controller = "Home", action = "GetClientsService" }
             );
 
