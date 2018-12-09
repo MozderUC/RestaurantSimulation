@@ -1,9 +1,12 @@
-﻿using RestaurantSimulation.BLL.Services;
+﻿using Newtonsoft.Json;
+using RestaurantSimulation.BLL.Services;
 using RestaurantSimulation.BLL.Services.CustomExeptions;
+using RestaurantSimulation.WEB.Hubs;
 using RestaurantSimulation.WEB.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
@@ -35,15 +38,13 @@ namespace RestaurantSimulation.WEB.Controllers
         [OutputCache(Location = OutputCacheLocation.None)]
         public ActionResult GetClientsServices()
         {
-            return Json(clientServices.Select(foo=>new {foo.TableNumber,foo.TableOrder,foo.IsCreatedBill}), JsonRequestBehavior.AllowGet);
+            return Json(clientServices.Select(foo=>new {foo.TableNumber,foo.TableOrder,foo.IsCreatedBill, Message = ""}), JsonRequestBehavior.AllowGet);
         }
-
         [OutputCache(Location = OutputCacheLocation.None)]
         public ActionResult GetRestarauntMenu()
         {
             return Json(restarauntMenu, JsonRequestBehavior.AllowGet);
         }
-
         [HttpPost]
         public ActionResult AddClientsService(int clientAmount)
         {
@@ -56,10 +57,10 @@ namespace RestaurantSimulation.WEB.Controllers
             {
                 return Json(e.Message, JsonRequestBehavior.AllowGet);
             }
+
+
             return Json("Success", JsonRequestBehavior.AllowGet);
         }
-
-       
         public ActionResult AddClientOrder(int tableNumber, string order)
         {
             List<string> orders = order.Split(',').ToList<string>();        
@@ -69,15 +70,28 @@ namespace RestaurantSimulation.WEB.Controllers
                                  (r, o1) => r).ToList();
 
             var client = clientServices.First(foo => foo.TableNumber == tableNumber);
-            client.MakeOrder(clientOrder);
-                                 
+
+            SendMessage("Client Order going to Cheaf", tableNumber);
+            Thread.Sleep(5000);
+            
+            client.MakeOrder(clientOrder);                                
             return Content("Success :)");
+        }
+        private void SendMessage(string message,int tableNumber)
+        {
+            // Получаем контекст хаба
+            var context =
+                Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<RestarauntHub>();
+            // отправляем сообщение           
+            context.Clients.All.displayMessage(JsonConvert.SerializeObject(clientServices.Select(foo => foo.TableNumber == tableNumber ? new { foo.TableNumber, foo.TableOrder, foo.IsCreatedBill, Message = message } : new { foo.TableNumber, foo.TableOrder, foo.IsCreatedBill, Message = "" }).ToList()));
         }
         public ActionResult GetClientBill(int tableNumber)
         {
             var currentClientServices = clientServices.First(foo => foo.TableNumber == tableNumber);
             currentClientServices.IsCreatedBill = true;
-                     
+
+            SendMessage("Waiter count your bill", tableNumber);
+            Thread.Sleep(2000);
             return View();
         }
 

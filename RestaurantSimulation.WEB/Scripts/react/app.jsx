@@ -1,10 +1,9 @@
 ﻿
-
 class MakeOrder extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { clientOrders: []};
+        this.state = { clientOrders: [], pushNote: ''};
 
         // This binding is necessary to make `this` work in the callback
         this.handleClick = this.handleClick.bind(this);
@@ -14,9 +13,7 @@ class MakeOrder extends React.Component {
     handleClientOrderChange() {
         this.props.onClientOrderChange(this.state.clientOrders, this.props.tableNumber);
     }
-
-    handleClick(e) {
-        console.log('The link was clicked.', e.target.getAttribute('data-item'));
+    handleClick(e) {       
         const clientOrders = this.state.clientOrders;
 
         const clientOrder = { Id: clientOrders.length + 1, Dish: e.target.getAttribute('data-item')};
@@ -88,6 +85,7 @@ class CompleteOrder extends React.Component {
 
     render() {
 
+       
         const rows = this.props.clientService.map((clientService,index) =>
             <li key={index}>
                 {clientService.Dish}
@@ -97,12 +95,32 @@ class CompleteOrder extends React.Component {
         return (
             <div className="card-body">
                 Bon appetit!
+                {this.props.clientMessage}
                 <ul>
+                    
                     {rows}
                     <button onClick={this.handleClientGetBill} className="btn btn-primary float-right">
                         {'Get Bill'}
                     </button>
                 </ul>
+            </div>
+        );
+    }
+}
+
+class PushNote extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        // This binding is necessary to make `this` work in the callback   
+    } 
+
+    render() {
+        
+        return (
+            <div className="card-body">
+                {this.props.clientMessage}               
             </div>
         );
     }
@@ -128,7 +146,7 @@ class BillOrder extends React.Component {
         for (i = 0; i < this.props.clientService.TableOrder.length; i++) {
             sum = sum + this.props.clientService.TableOrder[i].Cost;
         }
-        console.log("came here", sum)
+        
         return (
             <div>{sum}</div>
         )
@@ -198,18 +216,21 @@ class ClientsServiceList extends React.Component {
                 <div className="card mx-auto">
                     <div className="card-header">
                         <h2>
-                            Table - {clientService.TableNumber}
+                            Table - {clientService.TableNumber}                           
                         </h2>
                     </div>                   
                     {(() => {
+                        if (clientService.Message != "") {
+                            return <PushNote clientMessage={clientService.Message}/>;
+                        }
                         if (clientService.IsCreatedBill == true) {
                             return <BillOrder clientService={clientService} onPaidOrder={this.handlePaidOrder}/>;
                         }
                         if (clientService.TableOrder == undefined) {
                             return <MakeOrder restarauntMenu={this.props.restarauntMenu} onClientOrderChange={this.handleClientOrderChange} tableNumber={clientService.TableNumber} />;
                         }
-                        if (clientService.TableOrder != undefined) {
-                            return <CompleteOrder clientService={clientService.TableOrder} onClientGetBill={this.handleClientGetBill} tableNumber={clientService.TableNumber} />;
+                        if (clientService.TableOrder != undefined || clientService.Message != "") {            
+                            return <CompleteOrder clientService={clientService.TableOrder} clientMessage ={clientService.Message} onClientGetBill={this.handleClientGetBill} tableNumber={clientService.TableNumber} />;
                         }
                     })()}
                     
@@ -256,12 +277,10 @@ class AddClientsForm extends React.Component {
         return formIsValid;
     }
 
-    handleClientsAmountChange(e) {
-        console.log('Change client amount', e.target.value);
+    handleClientsAmountChange(e) {      
         this.setState({ ClientsAmount: e.target.value });
     }
-    handleSubmit(e) {
-        console.log('handle submit');
+    handleSubmit(e) {       
 
         e.preventDefault();
 
@@ -306,8 +325,7 @@ class RestarauntSimulation extends React.Component {
         this.handleAddClientsSubmit = this.handleAddClientsSubmit.bind(this);
     }
 
-    handlePaidOrder(tableNumber) {
-        console.log('Handle paid', tableNumber);
+    handlePaidOrder(tableNumber) {        
 
         const data = new FormData();
         data.append('tableNumber', tableNumber);
@@ -317,8 +335,7 @@ class RestarauntSimulation extends React.Component {
         xhr.onload = () => this.loadClienServicesFromServer();
         xhr.send(data);
     }
-    handleGetBill(tableNumber) {
-        console.log('Client want bill', tableNumber);
+    handleGetBill(tableNumber) {     
 
         const data = new FormData();
         data.append('tableNumber', tableNumber);
@@ -334,7 +351,6 @@ class RestarauntSimulation extends React.Component {
         const data = new FormData();
         data.append('tableNumber', tableNumber);
         data.append('order', resultDish);
-        console.log('handleClientOrder');
 
         const xhr = new XMLHttpRequest();
         xhr.open('POST', this.props.processClientOrderUrl, true);  
@@ -357,25 +373,38 @@ class RestarauntSimulation extends React.Component {
     }
 
 
-    componentWillMount() {
+    componentDidMount() {
+
+        //SignalR Code
+        var self = this;
+
+        var vhub = $.connection.restarauntHub;
+        vhub.client.displayMessage = function (data) {           
+            var obj = JSON.parse(data);    
+            console.log('My new data', obj)
+            self.setState({ clientState: obj });
+            console.log('My new state', self.state);
+        };
+
+        $.connection.hub.start();	
+
         this.loadClienServicesFromServer();
         const xhr = new XMLHttpRequest();
         xhr.open('get', this.props.getMenuUrl, true);
         xhr.onload = () => {
-            const data = JSON.parse(xhr.responseText);
-            this.setState({ restarauntMenu: data });
+            const data = JSON.parse(xhr.responseText);        
+            this.setState({ restarauntMenu: data });           
         };
         xhr.send();
     }
-    loadClienServicesFromServer() {
-        console.log('loadClienServicesFromServer');
+    loadClienServicesFromServer() {      
         const xhr = new XMLHttpRequest();
         xhr.open('get', this.props.getClientsUrl, true);
-        xhr.onload = () => {
-            console.log('responseText', xhr.responseText);
+        xhr.onload = () => {            
             const data = JSON.parse(xhr.responseText);
-
+            console.log('Initial datat', data);
             this.setState({ clientState: data });
+            console.log('Initial state', this.state.clientState);
         };
         xhr.send();
     }
