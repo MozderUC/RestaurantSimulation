@@ -1,9 +1,11 @@
-﻿using RestaurantSimulation.DAL.Entities;
+﻿using Microsoft.AspNet.SignalR.Client;
+using RestaurantSimulation.DAL.Entities;
 using RestaurantSimulation.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RestaurantSimulation.BLL.Services
@@ -31,8 +33,15 @@ namespace RestaurantSimulation.BLL.Services
 
         public List<Models.VegetableSalad> TakeOrder(int TableNumber, IList<SaladOrder> Order)
         {
-            
-            TableOrder[TableNumber] = Order;           
+            var connection = new HubConnection("http://localhost:56319/");
+            IHubProxy myHub = connection.CreateHubProxy("RestarauntHub");
+
+            connection.Start().Wait(); // not sure if you need this if you are simply posting to the hub           
+            TableOrder[TableNumber] = Order;
+
+            myHub.Invoke("AddNewMessageToPage", "Waiter get order to cheaf", TableNumber).Wait();
+            Thread.Sleep(4000);
+
             return cheafService.ProcessOrder(Order);
 
         }

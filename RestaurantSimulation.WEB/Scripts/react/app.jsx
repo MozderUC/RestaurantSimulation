@@ -315,7 +315,8 @@ class RestarauntSimulation extends React.Component {
 
         this.state = {
             clientState: [],
-            restarauntMenu: []
+            restarauntMenu: [],
+            message:[]
         };
 
         // This binding is necessary to make `this` work in the callback
@@ -379,11 +380,16 @@ class RestarauntSimulation extends React.Component {
         var self = this;
 
         var vhub = $.connection.restarauntHub;
-        vhub.client.displayMessage = function (data) {           
-            var obj = JSON.parse(data);    
-            console.log('My new data', obj)
-            self.setState({ clientState: obj });
-            console.log('My new state', self.state);
+
+        vhub.client.displayMessage = function (message, tableNumber) {
+            const clientStateCopy = self.state.clientState;
+            clientStateCopy.map(function (clientState) {
+                if (clientState['TableNumber'] == tableNumber) {
+                    clientState['Message'] = message;
+                }
+                self.setState({ clientState: clientStateCopy });
+            })
+            console.log('My new data', message, tableNumber);          
         };
 
         $.connection.hub.start();	
@@ -401,10 +407,9 @@ class RestarauntSimulation extends React.Component {
         const xhr = new XMLHttpRequest();
         xhr.open('get', this.props.getClientsUrl, true);
         xhr.onload = () => {            
-            const data = JSON.parse(xhr.responseText);
-            console.log('Initial datat', data);
-            this.setState({ clientState: data });
-            console.log('Initial state', this.state.clientState);
+            const data = JSON.parse(xhr.responseText); 
+            console.log('DATA', data);
+            this.setState({ clientState: data });           
         };
         xhr.send();
     }

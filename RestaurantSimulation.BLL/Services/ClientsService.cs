@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNet.SignalR.Client;
+using System.Threading;
 
 namespace RestaurantSimulation.BLL.Services
 {
@@ -23,6 +25,14 @@ namespace RestaurantSimulation.BLL.Services
 
         public List<VegetableSalad> MakeOrder(IList<SaladOrder> order)
         {
+
+            var connection = new HubConnection("http://localhost:56319/");
+            IHubProxy myHub = connection.CreateHubProxy("RestarauntHub");
+            
+            connection.Start().Wait(); // not sure if you need this if you are simply posting to the hub
+            myHub.Invoke("AddNewMessageToPage", "Waiter get your order", TableNumber).Wait();
+            Thread.Sleep(4000);
+
             this.TableOrder = order.ToList();
             return WaiterService.TakeOrder(TableNumber, order);
         }

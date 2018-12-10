@@ -71,8 +71,6 @@ namespace RestaurantSimulation.WEB.Controllers
 
             var client = clientServices.First(foo => foo.TableNumber == tableNumber);
 
-            SendMessage("Client Order going to Cheaf", tableNumber);
-            Thread.Sleep(5000);
             
             client.MakeOrder(clientOrder);                                
             return Content("Success :)");
@@ -89,9 +87,7 @@ namespace RestaurantSimulation.WEB.Controllers
         {
             var currentClientServices = clientServices.First(foo => foo.TableNumber == tableNumber);
             currentClientServices.IsCreatedBill = true;
-
-            SendMessage("Waiter count your bill", tableNumber);
-            Thread.Sleep(2000);
+            
             return View();
         }
 

@@ -26,3 +26,7 @@ textarea {
 .article-list__li {
     list-style: none;
 }
+
+th {
+    cursor: pointer;
+}
