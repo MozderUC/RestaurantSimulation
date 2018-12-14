@@ -60,7 +60,7 @@
     <Compile Include="Models\VegetableCollection.cs" />
     <Compile Include="Models\VegetableSalad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CheafService.cs" />
+    <Compile Include="Services\ChefService.cs" />
     <Compile Include="Services\ClientsService.cs" />
     <Compile Include="Services\ClientsRegistrationService.cs" />
     <Compile Include="Services\CustomExeptions\NoAmountNeededProductExeption.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="Services\SaladAndCook\SaladOrder\GalaxySaladOrder.cs" />
     <Compile Include="Services\SaladAndCook\SaladCook\GalaxySaladCook.cs" />
     <Compile Include="Services\CustomExeptions\NotFoundIngredienceExeption.cs" />
-    <Compile Include="Services\IRestaurantCheaf.cs" />
+    <Compile Include="Services\IRestaurantChief.cs" />
     <Compile Include="Services\SaladAndCook\SaladOrder\SaladOrder.cs" />
     <Compile Include="Services\VegetableStorageService.cs" />
     <Compile Include="Services\SaladAndCook\SaladOrder\VinaigretteSaladOrder.cs" />

@@ -1,52 +1,48 @@
 ﻿using Microsoft.AspNet.SignalR.Client;
 using RestaurantSimulation.DAL.Entities;
 using RestaurantSimulation.DAL.Repositories;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace RestaurantSimulation.BLL.Services
 {
     public class WaiterService
     {
-        EFUnitOfWork UnitOfWork;
-        private readonly CheafService cheafService = new CheafService();
+        readonly EFUnitOfWork _unitOfWork;
+        private readonly ChiefService _chiefService = new ChiefService();
 
         public Dictionary<int, IList<SaladOrder>> TableOrder { get; set; }
       
         public WaiterService()
         {
-            UnitOfWork = new EFUnitOfWork();
+            _unitOfWork = new EFUnitOfWork();
             TableOrder = new Dictionary<int, IList<SaladOrder>>();
         }
 
         public IEnumerable<Menu> GiveMenu()
         {
             // Выдать Меню
-            var Menu = UnitOfWork.Menu.GetAll();
-            return Menu;
+            var menu = _unitOfWork.Menu.GetAll();
+            return menu;
 
         }
 
-        public List<Models.VegetableSalad> TakeOrder(int TableNumber, IList<SaladOrder> Order)
+        public List<Models.VegetableSalad> TakeOrder(int tableNumber, IList<SaladOrder> order)
         {
             var connection = new HubConnection("http://localhost:56319/");
-            IHubProxy myHub = connection.CreateHubProxy("RestarauntHub");
+            var myHub = connection.CreateHubProxy("RestaurantHub");
 
             connection.Start().Wait(); // not sure if you need this if you are simply posting to the hub           
-            TableOrder[TableNumber] = Order;
+            TableOrder[tableNumber] = order;
 
-            myHub.Invoke("AddNewMessageToPage", "Waiter get order to cheaf", TableNumber).Wait();
+            myHub.Invoke("AddNewMessageToPage", "Waiter get order to chef", tableNumber).Wait();
             Thread.Sleep(4000);
 
-            return cheafService.ProcessOrder(Order);
+            return _chiefService.ProcessOrder(order);
 
         }
 
-        public void GiveBill(int TableNumber)
+        public void GiveBill(int tableNumber)
         {
             // Count bill sum for a specific table
 
@@ -57,13 +53,13 @@ namespace RestaurantSimulation.BLL.Services
             //return MakeBill;
         }
 
-        public void TakeFeedback(string feedback, string Name)
+        public void TakeFeedback(string feedback, string name)
         {
-            UnitOfWork.Guestbook.Create(new Guestbook() { Name = Name, Review = feedback });
-            UnitOfWork.Save();
+            _unitOfWork.Guestbook.Create(new Guestbook() { Name = name, Review = feedback });
+            _unitOfWork.Save();
         }
 
-        public void CleanUpTable(int TableNumber)
+        public void CleanUpTable(int tableNumber)
         {
             // Забрать счет, отдать деньги в кассу   
         }

@@ -12,7 +12,7 @@ namespace RestaurantSimulation.BLL.Services
         public override string Dish { get; set; } = "VinaigretteSalad";
         public override int Cost { get; set; } = 34;
 
-        public override VegetableSalad OrderSalad(IRestaurantCheaf p)
+        public override VegetableSalad OrderSalad(IRestaurantChief p)
         {
             return p.OrderSalad(this);
         }

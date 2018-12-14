@@ -27,7 +27,7 @@ namespace RestaurantSimulation.BLL.Services
         {
 
             var connection = new HubConnection("http://localhost:56319/");
-            IHubProxy myHub = connection.CreateHubProxy("RestarauntHub");
+            var myHub = connection.CreateHubProxy("RestarauntHub");
             
             connection.Start().Wait(); // not sure if you need this if you are simply posting to the hub
             myHub.Invoke("AddNewMessageToPage", "Waiter get your order", TableNumber).Wait();

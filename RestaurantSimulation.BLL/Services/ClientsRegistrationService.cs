@@ -41,9 +41,7 @@ namespace RestaurantSimulation.BLL.Services
             Tables.Where(item => item.TableNumber == ClosestTable.TableNumber).Select(u =>{ u.Reserved = true; return u; }).ToList();
 
 
-            ClientsService Clients = new ClientsService();
-            Clients.TableNumber = ClosestTable.TableNumber;
-            Clients.WaiterService = WaiterService;
+            var Clients = new ClientsService {TableNumber = ClosestTable.TableNumber, WaiterService = WaiterService};
 
             return Clients;          
         }

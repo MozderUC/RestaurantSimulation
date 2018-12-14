@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestaurantSimulation.BLL.Models
 {
@@ -20,30 +18,30 @@ namespace RestaurantSimulation.BLL.Models
             return new VegetableEnumerator(this);
         }
 
-        private List<Vegetable> innerCol;
+        private readonly List<Vegetable> _innerCol;
 
         public VegetableCollection()
         {
-            innerCol = new List<Vegetable>();
+            _innerCol = new List<Vegetable>();
         }
 
         public Vegetable this[int index]
         {
-            get { return (Vegetable)innerCol[index]; }
-            set { innerCol[index] = value; }
+            get => _innerCol[index];
+            set => _innerCol[index] = value;
         }
 
         public void Sort(IComparer<Vegetable> comparer)
         {
-            innerCol.Sort(comparer);
+            _innerCol.Sort(comparer);
         }
 
         // Determines if an item is in the 
         // collection by using a specified equality comparer.
         public bool Contains(Vegetable item, EqualityComparer<Vegetable> comp)
         {
-            bool found = false;
-            foreach (Vegetable bx in innerCol)
+            var found = false;
+            foreach (var bx in _innerCol)
             {
                 if (comp.Equals(bx, item))
                 {
@@ -68,64 +66,58 @@ namespace RestaurantSimulation.BLL.Models
 
             if (!Contains(item, new VegetableSameName()))
             {
-                innerCol.Add(item);
+                _innerCol.Add(item);
             }
             else
             {
-                innerCol.Where(foo => foo.Name == foo.Name).Select(u => { u.Weight += item.Weight; return u; }).ToList();
+                _innerCol.Where(foo => foo.Name == item?.Name).Select(u =>
+                {
+                    if (item != null) u.Weight += item.Weight;
+                    return u;
+                    // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+                }).ToList();
             }
         }
 
         public void Clear()
         {
-            innerCol.Clear();
+            _innerCol.Clear();
         }
 
         public void CopyTo(Vegetable[] array, int arrayIndex)
         {
             if (array == null)
-                throw new ArgumentNullException("The array cannot be null.");
+                throw new ArgumentNullException("The array cannot be null .");
             if (arrayIndex < 0)
                 throw new ArgumentOutOfRangeException("The starting array index cannot be negative.");
             if (Count > array.Length - arrayIndex + 1)
                 throw new ArgumentException("The destination array has fewer elements than the collection.");
 
-            for (int i = 0; i < innerCol.Count; i++)
+            for (var i = 0; i < _innerCol.Count; i++)
             {
-                array[i + arrayIndex] = innerCol[i];
+                array[i + arrayIndex] = _innerCol[i];
             }
         }
 
-        public int Count
-        {
-            get
-            {
-                return innerCol.Count;
-            }
-        }
+        public int Count => _innerCol.Count;
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         public bool Remove(Vegetable item)
         {
-            bool result = false;
+            var result = false;
 
             // Iterate the inner collection to 
             // find the box to be removed.
-            for (int i = 0; i < innerCol.Count; i++)
+            for (var i = 0; i < _innerCol.Count; i++)
             {
 
-                Vegetable curBox = (Vegetable)innerCol[i];
+                var curBox = _innerCol[i];
 
-                if (new VegetableSameName().Equals(curBox, item))
-                {
-                    innerCol.RemoveAt(i);
-                    result = true;
-                    break;
-                }
+                if (!new VegetableSameName().Equals(curBox, item)) continue;
+                _innerCol.RemoveAt(i);
+                result = true;
+                break;
             }
             return result;
         }
@@ -134,42 +126,38 @@ namespace RestaurantSimulation.BLL.Models
 
     public class VegetableEnumerator : IEnumerator<Vegetable>
     {
-        private VegetableCollection _collection;
-        private int curIndex;
-        private Vegetable curVegetable;
+        private readonly VegetableCollection _collection;
+        private int _curIndex;
 
 
         public VegetableEnumerator(VegetableCollection collection)
         {
             _collection = collection;
-            curIndex = -1;
-            curVegetable = default(Vegetable);
+            _curIndex = -1;
+            Current = default(Vegetable);
 
         }
 
         public bool MoveNext()
         {
             //Avoids going beyond the end of the collection.
-            if (++curIndex >= _collection.Count)
+            if (++_curIndex >= _collection.Count)
             {
                 return false;
             }
             else
             {
                 // Set current box to next item in collection.
-                curVegetable = _collection[curIndex];
+                Current = _collection[_curIndex];
             }
             return true;
         }
 
-        public void Reset() { curIndex = -1; }
+        public void Reset() { _curIndex = -1; }
 
         void IDisposable.Dispose() { }
 
-        public Vegetable Current
-        {
-            get { return curVegetable; }
-        }
+        public Vegetable Current { get; private set; }
 
 
         object IEnumerator.Current
@@ -183,14 +171,7 @@ namespace RestaurantSimulation.BLL.Models
     {
         public override bool Equals(Vegetable b1, Vegetable b2)
         {
-            if (b1.Name == b2.Name)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return b2 != null && (b1 != null && b1.Name == b2.Name);
         }
 
         public override int GetHashCode(Vegetable obj)
@@ -204,9 +185,9 @@ namespace RestaurantSimulation.BLL.Models
     {
         public int Compare(T x, T y)
         {
-            if (x.Calories < y.Calories)
+            if (y != null && (x != null && x.Calories < y.Calories))
                 return 1;
-            if (x.Calories > y.Calories)
+            if (y != null && (x != null && x.Calories > y.Calories))
                 return -1;
             else return 0;
         }

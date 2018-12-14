@@ -11,6 +11,6 @@ namespace RestaurantSimulation.BLL.Services
     {
         public abstract string Dish { get; set; }
         public abstract int Cost { get; set; }
-        public abstract VegetableSalad OrderSalad(IRestaurantCheaf p);
+        public abstract VegetableSalad OrderSalad(IRestaurantChief p);
     }
 }

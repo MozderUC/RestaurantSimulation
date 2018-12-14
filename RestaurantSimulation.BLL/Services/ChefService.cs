@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantSimulation.BLL.Services
 {
-    public class CheafService : IRestaurantCheaf
+    public class ChiefService : IRestaurantChief
     {
         private readonly VinaigretteSaladCook vinaigretteSaladCook = new VinaigretteSaladCook();
         private readonly GalaxySaladCook galaxySaladCook  = new GalaxySaladCook();
