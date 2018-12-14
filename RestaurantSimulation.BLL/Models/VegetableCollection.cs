@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace RestaurantSimulation.BLL.Models
@@ -84,10 +85,11 @@ namespace RestaurantSimulation.BLL.Models
             _innerCol.Clear();
         }
 
+        [SuppressMessage("ReSharper", "NotResolvedInText")]
         public void CopyTo(Vegetable[] array, int arrayIndex)
         {
             if (array == null)
-                throw new ArgumentNullException("The array cannot be null .");
+                throw new ArgumentNullException("The array cannot be null.");
             if (arrayIndex < 0)
                 throw new ArgumentOutOfRangeException("The starting array index cannot be negative.");
             if (Count > array.Length - arrayIndex + 1)

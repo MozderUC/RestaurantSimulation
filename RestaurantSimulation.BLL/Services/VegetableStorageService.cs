@@ -24,7 +24,7 @@ namespace RestaurantSimulation.BLL.Services
             {               
                 var foundVegetables = _unitOfWork.VegetableStorage.Find(item => item.Vegetable.Name == ing.Value).FirstOrDefault();
                 if (foundVegetables == null)
-                    throw new NotFoundIngredienceExeption("");
+                    throw new NotFoundIngredientException("");
                 if (foundVegetables.VegetableStock < ing.Key)
                     throw new NoAmountNeededProduct(ing.ToString());
 

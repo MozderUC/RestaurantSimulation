@@ -10,6 +10,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
+using RestaurantSimulation.BLL.Services.SaladAndCook.SaladOrder;
 
 namespace RestaurantSimulation.WEB.Controllers
 {
@@ -53,7 +54,7 @@ namespace RestaurantSimulation.WEB.Controllers
                 var clients = clientsRegistrationService.AddClients(clientAmount);
                 clientServices.Add(clients);
             }
-            catch (TableNotFoundExeption e)
+            catch (TableNotFoundException e)
             {
                 return Json(e.Message, JsonRequestBehavior.AllowGet);
             }

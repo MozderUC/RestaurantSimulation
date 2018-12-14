@@ -1,12 +1,10 @@
 ﻿using RestaurantSimulation.BLL.Models;
 using RestaurantSimulation.DAL.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
 using System.Threading;
+using RestaurantSimulation.BLL.Services.SaladAndCook.SaladOrder;
 
 namespace RestaurantSimulation.BLL.Services
 {
@@ -27,13 +25,13 @@ namespace RestaurantSimulation.BLL.Services
         {
 
             var connection = new HubConnection("http://localhost:56319/");
-            var myHub = connection.CreateHubProxy("RestarauntHub");
+            var myHub = connection.CreateHubProxy("RestaurantHub");
             
             connection.Start().Wait(); // not sure if you need this if you are simply posting to the hub
             myHub.Invoke("AddNewMessageToPage", "Waiter get your order", TableNumber).Wait();
             Thread.Sleep(4000);
 
-            this.TableOrder = order.ToList();
+            TableOrder = order.ToList();
             return WaiterService.TakeOrder(TableNumber, order);
         }
 
@@ -43,9 +41,9 @@ namespace RestaurantSimulation.BLL.Services
         }
 
 
-        public void LeaveFeedback(string feedback, string Name)
+        public void LeaveFeedback(string feedback, string name)
         {
-            WaiterService.TakeFeedback(feedback, Name);
+            WaiterService.TakeFeedback(feedback, name);
         }
 
         public void LeaveRestaurant()

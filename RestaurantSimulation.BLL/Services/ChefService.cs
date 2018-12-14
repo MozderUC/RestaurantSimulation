@@ -1,37 +1,35 @@
 ﻿using RestaurantSimulation.BLL.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RestaurantSimulation.BLL.Services.SaladAndCook.SaladCook;
+using RestaurantSimulation.BLL.Services.SaladAndCook.SaladOrder;
 
 namespace RestaurantSimulation.BLL.Services
 {
     public class ChiefService : IRestaurantChief
     {
-        private readonly VinaigretteSaladCook vinaigretteSaladCook = new VinaigretteSaladCook();
-        private readonly GalaxySaladCook galaxySaladCook  = new GalaxySaladCook();
-        readonly List<VegetableSalad> ReadyOrder = new List<VegetableSalad>();
+        private readonly VinaigretteSaladCook _vinaigretteSaladCook = new VinaigretteSaladCook();
+        private readonly GalaxySaladCook _galaxySaladCook  = new GalaxySaladCook();
+        private readonly List<VegetableSalad> _readyOrder = new List<VegetableSalad>();
 
         
         public VegetableSalad OrderSalad(VinaigretteSaladOrder vinaigrette)
         {
-            return vinaigretteSaladCook.MakeSalad(vinaigrette);
+            return _vinaigretteSaladCook.MakeSalad(vinaigrette);
         }
 
         public VegetableSalad OrderSalad(GalaxySaladOrder galaxy)
         {
-            return galaxySaladCook.MakeSalad(galaxy);
+            return _galaxySaladCook.MakeSalad(galaxy);
         }
 
         public List<VegetableSalad> ProcessOrder(IList<SaladOrder> orders)
         {
             foreach (var order in orders)
             {
-                ReadyOrder.Add(order.OrderSalad(this));
+                _readyOrder.Add(order.OrderSalad(this));
             }
 
-            return ReadyOrder;
+            return _readyOrder;
         }
     }
 }

@@ -1,23 +1,18 @@
 ﻿using RestaurantSimulation.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RestaurantSimulation.BLL.Services
+namespace RestaurantSimulation.BLL.Services.SaladAndCook.SaladCook
 {
-    abstract public class Cook
+    public abstract class Cook
     {
-        public Models.VegetableSalad VegetableSalad { get; private set; }
+        public VegetableSalad VegetableSalad { get; private set; }
         public VegetableStorageService VegetableStorage { get; set; }
 
-        public Cook()
+        protected Cook()
         {
-            VegetableSalad = new Models.VegetableSalad();
+            VegetableSalad = new VegetableSalad();
             VegetableStorage = new VegetableStorageService();
         }
         
-        public abstract VegetableSalad MakeSalad(SaladOrder order);
+        public abstract VegetableSalad MakeSalad(SaladOrder.SaladOrder order);
     }
 }

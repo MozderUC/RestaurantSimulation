@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RestaurantSimulation.BLL.Services
+namespace RestaurantSimulation.BLL.Services.CustomExeptions
 {
-    public class NotFoundIngredienceExeption : Exception
+    public class NotFoundIngredientException : Exception
     {
-        public NotFoundIngredienceExeption(string message)
+        public NotFoundIngredientException(string message)
         : base(message)
         { }
     }

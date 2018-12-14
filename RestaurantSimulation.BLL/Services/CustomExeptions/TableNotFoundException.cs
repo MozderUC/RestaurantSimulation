@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace RestaurantSimulation.BLL.Services.CustomExeptions
 {
-    public class TableNotFoundExeption : Exception
+    public class TableNotFoundException : Exception
     {
-        public TableNotFoundExeption(string message)
+        public TableNotFoundException(string message)
         : base(message)
         { }
     }

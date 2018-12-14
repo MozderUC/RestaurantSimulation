@@ -1,28 +1,24 @@
-﻿using RestaurantSimulation.BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using RestaurantSimulation.BLL.Models;
 
-namespace RestaurantSimulation.BLL.Services
+namespace RestaurantSimulation.BLL.Services.SaladAndCook.SaladCook
 {
     public class GalaxySaladCook : Cook
     {
-        public override VegetableSalad MakeSalad(SaladOrder galaxySalad)
+        public override VegetableSalad MakeSalad(SaladOrder.SaladOrder galaxySalad)
         {
-            Dictionary<int, string> Resipie = new Dictionary<int, string>() { { 12, "Potatoo" }, { 14, "Ogurchik" }, { 22, "Morkov" } };
+            var respire = new Dictionary<int, string>() { { 12, "Potatoo" }, { 14, "Ogurchik" }, { 22, "Morkov" } };
 
-            List<Vegetable> ingredience = this.VegetableStorage.GetVegetables(Resipie);
+            var ingredient = VegetableStorage.GetVegetables(respire);
 
-            foreach (var ing in ingredience)
+            foreach (var ing in ingredient)
             {
-                this.VegetableSalad.Ingredients.Add(ing);
+                VegetableSalad.Ingredients.Add(ing);
             }
-            this.VegetableSalad.Name = "Vinaigrette";
+            VegetableSalad.Name = "Vinaigrette";
 
 
-            return this.VegetableSalad;
+            return VegetableSalad;
         }
     }
 }
