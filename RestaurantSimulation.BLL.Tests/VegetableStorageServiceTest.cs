@@ -19,7 +19,7 @@ namespace RestaurantSimulation.BLL.Tests
         {
             // Arrange
             var mock = new Mock<IEFUnitOfWork>();
-            mock.Setup(lw => lw.VegetableStorage.Find(It.IsAny<Func<VegetableStorage, bool>>()))
+            mock.Setup(lw => lw.VegetableStorage.GetAll())
                 .Returns(new List<VegetableStorage>{ new VegetableStorage { VegetableStock = 20, Vegetable = new Vegetable { Name = "Potato" } } });
         
             var vegetableStorageService = new VegetableStorageService(mock.Object);
@@ -39,7 +39,7 @@ namespace RestaurantSimulation.BLL.Tests
         {
             // Arrange
             var mock = new Mock<IEFUnitOfWork>();
-            mock.Setup(lw => lw.VegetableStorage.Find(It.IsAny<Func<VegetableStorage, bool>>()))
+            mock.Setup(lw => lw.VegetableStorage.GetAll())
                 .Returns(new List<VegetableStorage> { new VegetableStorage { VegetableStock = 2, Vegetable = new Vegetable { Name = "Potato" } } });
 
             var vegetablesToSalt = new Dictionary<int, string>
@@ -59,7 +59,7 @@ namespace RestaurantSimulation.BLL.Tests
         {
             // Arrange
             var mock = new Mock<IEFUnitOfWork>();
-            mock.Setup(lw => lw.VegetableStorage.Find(It.IsAny<Func<VegetableStorage, bool>>()))
+            mock.Setup(lw => lw.VegetableStorage.GetAll())
                 .Returns(new List<VegetableStorage>());
 
             var vegetablesToSalt = new Dictionary<int, string>
@@ -82,10 +82,9 @@ namespace RestaurantSimulation.BLL.Tests
             {
                 new VegetableStorage {VegetableStock = 20, Vegetable = new Vegetable {Name = "Potato"}},
                 new VegetableStorage {VegetableStock = 30, Vegetable = new Vegetable {Name = "Tomato"}}
-            };
-            var i = 0;
-            mock.Setup(lw => lw.VegetableStorage.Find(It.IsAny<Func<VegetableStorage, bool>>()))
-                .Returns(() => new List<VegetableStorage>{vegetableStorage[i]}).Callback(() => i++);
+            };           
+            mock.Setup(lw => lw.VegetableStorage.GetAll())
+                .Returns(vegetableStorage);
             var vegetableStorageService = new VegetableStorageService(mock.Object);
             var comparer = new VegetableComparer();
 

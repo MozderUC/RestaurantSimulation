@@ -22,6 +22,11 @@ namespace RestaurantSimulation.DAL.Repositories
             Db = new RestaurantContext();            
         }
 
+        public EFUnitOfWork(string connection)
+        {
+            Db = new RestaurantContext(connection);
+        }
+
         public IRepository<Menu> Menu
         {
             get

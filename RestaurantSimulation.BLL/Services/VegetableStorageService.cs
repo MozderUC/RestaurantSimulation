@@ -29,10 +29,11 @@ namespace RestaurantSimulation.BLL.Services
 
         public List<Models.Vegetable> GetVegetables(Dictionary<int, string> ingredients)
         {
-
+            var storage = _unitOfWork.VegetableStorage.GetAll().ToList();
             foreach (var ing in ingredients)
-            {               
-                var foundVegetables = _unitOfWork.VegetableStorage.Find(item => item.Vegetable.Name == ing.Value).FirstOrDefault();
+            {                                  
+                var foundVegetables = storage.Find(item => item.Vegetable.Name == ing.Value);
+           
                 if (foundVegetables == null)
                     throw new NotFoundIngredientException("");
                 if (foundVegetables.VegetableStock < ing.Key)

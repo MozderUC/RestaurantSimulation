@@ -18,6 +18,10 @@ namespace RestaurantSimulation.DAL.EF
         public RestaurantContext() : base("RestaurantSimulation")
         {
         }
-        
+
+        public RestaurantContext(string connection) : base(connection)
+        {
+        }
+
     }
 }
