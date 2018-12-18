@@ -2,9 +2,9 @@
 
 namespace RestaurantSimulation.BLL.Services.CustomExeptions
 {
-    public class NoAmountNeededProduct : Exception
+    public class NoAmountNeededProductException : Exception
     {
-        public NoAmountNeededProduct(string message)
+        public NoAmountNeededProductException(string message)
         : base(message)
         { }
     }

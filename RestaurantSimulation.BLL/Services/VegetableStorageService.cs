@@ -8,12 +8,22 @@ namespace RestaurantSimulation.BLL.Services
 {
     public class VegetableStorageService
     {
-        private readonly EFUnitOfWork _unitOfWork;
+        private readonly IEFUnitOfWork _unitOfWork;
         public List<Models.Vegetable> Vegetables { get; set; }
 
         public VegetableStorageService()
         {
             _unitOfWork = new EFUnitOfWork();
+            Vegetables = new List<Models.Vegetable>();
+        }
+
+        /// <summary>
+        /// For testability
+        /// </summary>
+        /// <param name="unitOfWork"></param>     
+        public VegetableStorageService(IEFUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
             Vegetables = new List<Models.Vegetable>();
         }
 
@@ -26,7 +36,7 @@ namespace RestaurantSimulation.BLL.Services
                 if (foundVegetables == null)
                     throw new NotFoundIngredientException("");
                 if (foundVegetables.VegetableStock < ing.Key)
-                    throw new NoAmountNeededProduct(ing.ToString());
+                    throw new NoAmountNeededProductException(ing.ToString());
 
                 var vegetable = MapperModule.EFVegetable_To_Vegetable(foundVegetables.Vegetable);
                 vegetable.Weight = ing.Key;

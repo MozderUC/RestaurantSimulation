@@ -25,7 +25,7 @@ namespace RestaurantSimulation.BLL.Services
 
         public ClientsService AddClients(int visitorsNumber)
         {
-            // Find table whith nearest seats count
+            // Find table with nearest seats count
             var closestTable = Tables.Where(item => item.Reserved == false && item.SeatCount >= visitorsNumber).OrderBy(item => Math.Abs(visitorsNumber - item.SeatCount)).FirstOrDefault();
 
             if (closestTable == null)

@@ -33,36 +33,20 @@ namespace RestaurantSimulation.BLL.Services
             var connection = new HubConnection("http://localhost:56319/");
             var myHub = connection.CreateHubProxy("RestaurantHub");
 
-            connection.Start().Wait(); // not sure if you need this if you are simply posting to the hub           
+            //connection.Start().Wait(); // not sure if you need this if you are simply posting to the hub           
             TableOrder[tableNumber] = order;
 
-            myHub.Invoke("AddNewMessageToPage", "Waiter get order to chef", tableNumber).Wait();
-            Thread.Sleep(4000);
+            //myHub.Invoke("AddNewMessageToPage", "Waiter get order to chef", tableNumber).Wait();
+            //Thread.Sleep(4000);
 
             return _chiefService.ProcessOrder(order);
 
-        }
-
-        public void GiveBill(int tableNumber)
-        {
-            // Count bill sum for a specific table
-
-            //var MakeBill = TableOrder[TableNumber].Join(UnitOfWork.Menu.GetAll(),
-            //                     order => order.Dish,
-            //                     menuItem => menuItem.Name,
-            //                     (order, menuItem) => menuItem.Cost).Sum();
-            //return MakeBill;
-        }
+        }     
 
         public void TakeFeedback(string feedback, string name)
         {
             _unitOfWork.Guestbook.Create(new Guestbook() { Name = name, Review = feedback });
             _unitOfWork.Save();
-        }
-
-        public void CleanUpTable(int tableNumber)
-        {
-            // Забрать счет, отдать деньги в кассу   
-        }
+        }        
     }
 }

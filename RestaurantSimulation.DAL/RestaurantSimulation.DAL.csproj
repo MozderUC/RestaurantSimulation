@@ -66,6 +66,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GuestbookRepository.cs" />
+    <Compile Include="Repositories\IEFUnitOfWork.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
     <Compile Include="Repositories\EFUnitOfWork.cs" />
     <Compile Include="Repositories\VegetableReposirory.cs" />

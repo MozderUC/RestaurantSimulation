@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantSimulation.DAL.Repositories
 {
-    public class EFUnitOfWork : IDisposable
+    public class EFUnitOfWork : IDisposable, IEFUnitOfWork
     {
         private RestaurantContext Db;
         private MenuRepository MenuRepository;
